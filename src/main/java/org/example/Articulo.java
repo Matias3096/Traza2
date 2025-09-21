@@ -1,11 +1,16 @@
 package org.example;
 
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+
 
 public class Articulo {
     @EqualsAndHashCode.Include
