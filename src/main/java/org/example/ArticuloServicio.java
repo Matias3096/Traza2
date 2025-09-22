@@ -34,7 +34,7 @@ public class ArticuloServicio {
     public void mostrarInsumos() {
         System.out.println("======Insumos======");
         List<Articulo> insumos = articulos.values().stream()
-                .filter( a-> a.getTipo () == TipoArticulo.INSUMO)
+                .filter( a-> a.getTipoArticulo () == TipoArticulo.INSUMO)
                 .collect(Collectors.toList());
         if (insumos.isEmpty()){
             System.out.println("No Insumos registrados");
@@ -49,8 +49,8 @@ public class ArticuloServicio {
     public void mostrarManufacturados() {
         System.out.println("======Manufacturados======");
         List<Articulo> man = articulos.values().stream()
-                .filter(a-> a.getTipo() == TipoArticulo.MANUFACTURADO
-                        .collect(Collectors.toList()));
+                .filter(a-> a.getTipoArticulo() == TipoArticulo.MANUFACTURADO)
+                        .collect(Collectors.toList());
         if (man.isEmpty()){
             System.out.println("No Manufacturados registrados");
             return;
@@ -61,7 +61,7 @@ public class ArticuloServicio {
     //Buscar manufacturado por id
     public Articulo buscarManufacturadoPorId(Integer id) {
         Articulo a = articulos.get(id);
-        if (a!=null && a.getTipo() == TipoArticulo.MANUFACTURADO)
+        if (a!=null && a.getTipoArticulo() == TipoArticulo.MANUFACTURADO)
             return a;
         return null;
     }
@@ -70,14 +70,17 @@ public class ArticuloServicio {
     public boolean actualizarManufacturado(Integer id, String nuevoNombre, Double nuevoPrecio) {
         Articulo a = buscarManufacturadoPorId(id);
         if (a == null) return false;
-        if (nuevoNombre==null && !nuevoNombre.isBlank()) a.setNombre(nuevoNombre);
+        if (nuevoNombre != null && !nuevoNombre.isBlank()) {
+            a.setNombre(nuevoNombre);
+        }
+
         if(nuevoPrecio != null ) a.setPrecio(nuevoPrecio);
         return true;
     }
     //Eliminar manufacturado por id
     public boolean eliminarManufacturado(Integer id) {
         Articulo a = articulos.get(id);
-        if (a==null || a.getTipo() != TipoArticulo.MANUFACTURADO) return false;
+        if (a==null || a.getTipoArticulo() != TipoArticulo.MANUFACTURADO) return false;
         articulos.remove(id);
         return true;
     }
@@ -87,13 +90,13 @@ public class ArticuloServicio {
         if (a==null) return;
         System.out.println("------------------");
         System.out.println("ID: "+a.getId()+" Nombre: "+a.getNombre() + "|$ " + a.getPrecio());
-        System.out.println("Categoria" + (a.getCategoria()!=null?a.getCategoria().getNombre():" Sin categoria");
+        System.out.println("Categoria" + (a.getCategoria()!=null?a.getCategoria().getNombre():" Sin categoria"));
         System.out.println("Unidad: " + a.getUnidadMedida());
-        System.out.println("Tipo: " + a.getTipo());
+        System.out.println("Tipo: " + a.getTipoArticulo());
         if (!a.getImagenes().isEmpty()) {
             System.out.println("Imagenes: ");
             a.getImagenes().forEach(image -> System.out.println("Imagen: " + image.getNombre() +
-                    "(" + image.getRuta()")"));
+                    "(" + image.getRuta() +")"));
         }
         if (!a.getDetalleArticulos().isEmpty()){
             System.out.println("Detalle Articulos(Insumo -cantidad): ");
